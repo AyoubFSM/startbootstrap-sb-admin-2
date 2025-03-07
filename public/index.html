@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système d'Irrigation Intelligent</title>
+    <link rel="icon" href="images/Royal_Moroccan_Gendarmerie.png">
+    <link href="css/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css">    
+</head>
+
+<body class="bg-login">
+    <nav id="navbar" class="bg-white shadow-lg fixed top-0 left-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <!-- Logo and Title -->
+                <div class="flex items-center space-x-3">
+                    <img src="images/Royal_Moroccan_Gendarmerie.png" alt="Logo" class="flex-shrink-0">
+                    <div class="hidden md:block">
+                        <span class="text-2xl font-bold text-green-600">Irrigation System</span>
+                    </div>
+                </div>
+    
+                <!-- Dark Mode and Logout Buttons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Dark Mode Button -->
+                    <button id="darkModeButton" class="flex items-center space-x-2 text-gray-600 hover:text-gray-800">
+                        <i id="darkModeIcon" class="fas fa-moon text-xl"></i>
+                        <span class="font-medium">Dark Mode</span>
+                    </button>
+    
+                    <!-- Logout Button -->
+                    <button id="logoutButton" class="flex items-center space-x-2 text-red-600 hover:text-red-700">
+                        <i class="fas fa-sign-out-alt text-xl"></i>
+                        <span class="font-medium">Déconnexion</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+
+    </script>
+
+    <!-- Logout Popup -->
+    <div id="logoutPopup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Déconnexion</h3>
+                <!-- Close (×) Button -->
+                <button onclick="closeLogout()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <p class="text-gray-600 mb-6">Voulez-vous vraiment vous déconnecter ?</p>
+            <div class="flex justify-end space-x-3">
+                <!-- Cancel Button -->
+                <button onclick="cancelLogout()"
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                    Annuler
+                </button>
+                <!-- Confirm Button -->
+                <button onclick="confirmLogout()"
+                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    Confirmer
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Main Dashboard -->
+    <div class="h-8"></div>
+    <div class="max-w-7xl mt-14 mx-auto px-4 py-8">
+        <!-- Status Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Temperature Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-400">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <i class="fas fa-thermometer-half text-2xl text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500 font-medium">Température</h3>
+                        <p class="text-3xl font-bold"><span id="temperature">0</span></p>
+                    </div>
+                </div>
+                <div class="text-sm text-green-600">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Dans la plage normale
+                </div>
+            </div>
+
+            <!-- Soil Humidity Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-400">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <i class="fas fa-tint text-2xl text-green-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500 font-medium">Humidité Sol</h3>
+                        <p class="text-3xl font-bold" id="humidity">0</p>
+                    </div>
+                </div>
+                <div class="text-sm text-green-600">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Niveau optimal atteint
+                </div>
+            </div>
+
+            <!-- Air Humidity Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-400">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <i class="fas fa-cloud text-2xl text-purple-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500 font-medium">Humidité Air</h3>
+                        <p class="text-3xl font-bold" id="humidtyair">0</p>
+                    </div>
+                </div>
+                <div class="text-sm text-green-600">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Conditions idéales
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Temperature Chart Section -->
+            <div class="lg:col-span-1 flex flex-col">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden flex-1 flex flex-col">
+                    <!-- Card Header -->
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h6 class="text-lg font-semibold text-blue-600">Temperature Chart</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1">
+                        <div class="chart-area h-full">
+                            <canvas id="myAreaChart" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Sources Section -->
+            <div class="lg:col-span-1 flex flex-col">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden flex-1 flex flex-col">
+                    <!-- Card Header -->
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h6 class="text-lg font-semibold text-blue-600">Revenue Sources</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="chart-pie pt-4 pb-2 flex-1">
+                            <canvas id="myPieChart" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="mt-4 text-center text-sm">
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-blue-500"></i> Zon Bloc-A
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-green-500"></i> Zon Bloc-B
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-indigo-500"></i> Zon PC
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Control Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 my-8">
+            <!-- Pump Controls -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold mb-6 flex items-center space-x-2">
+                    <i class="fas fa-tint text-green-600 mr-2"></i>
+                    <span>Contrôle de Pompe</span>
+                </h2>
+                <div class="space-y-4">
+                    <!-- Button -->
+                    <button id="pumpButton" onclick="confirmTogglePump()"
+                        class="w-full flex items-center space-x-3 p-4 bg-gray-100 hover:bg-green-100 rounded-lg transition-colors">
+                        <i id="pumpIcon" class="fas fa-toggle-off text-2xl text-green-600"></i>
+                        <span id="pumpText">Démarrage de Pompe</span>
+                    </button>
+
+                    <!-- Confirmation Modal -->
+                    <div id="confirmModal"
+                        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                        <div class="bg-white p-6 rounded-lg shadow-lg">
+                            <p class="text-lg mb-4">Voulez-vous vraiment effectuer cette action ?</p>
+                            <div class="flex justify-end space-x-3">
+                                <!-- Confirm (Oui) Button -->
+                                <button onclick="togglePump(true)"
+                                    class="px-4 py-2 bg-red-600 text-white rounded-lg">Oui</button>
+                                <!-- Cancel (Non) Button -->
+                                <button onclick="togglePump(false)"
+                                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Non</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Auto Humidité Sol Button -->
+                    <button id="autoHumiditeSolButton" onclick="confirmToggleAutoHumiditeSol()"
+                        class="w-full flex items-center space-x-3 p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                        <i id="solIcon" class="fas fa-toggle-off text-2xl text-green-600"></i>
+                        <span id="solButtonText">Auto par Humidité Sol</span>
+                    </button>
+
+                    <!-- Auto Humidité Air Button -->
+                    <button id="autoHumiditeAirButton" onclick="confirmToggleAutoHumiditeAir()"
+                        class="w-full flex items-center space-x-3 p-4 bg-yellow-50 hover:bg-yellow-100 rounded-lg transition-colors">
+                        <i id="airIcon" class="fas fa-chart-bar text-2xl text-yellow-600"></i>
+                        <span id="airButtonText">Auto par Humidité Air</span>
+                    </button>
+
+                    <!-- Confirmation Popup -->
+                    <div id="infoModal"
+                        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-lg max-w-md w-full p-6">
+                            <h3 class="text-xl font-bold mb-4">Confirmer l'action</h3>
+                            <p id="modalContent" class="text-gray-600 mb-4">Voulez-vous activer cette fonction ?</p>
+                            <div class="flex justify-end">
+                                <button onclick="confirmAction(true)"
+                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg">Oui</button>
+                                <button onclick="confirmAction(false)"
+                                    class="px-4 py-2 bg-gray-300 rounded-lg">Non</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="showTimerControl()"
+                        class="w-full flex items-center space-x-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                        <i class="fas fa-clock text-2xl text-blue-600"></i>
+                        <span>Programmation Horaires</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold mb-6 flex items-center space-x-2">
+                    <i class="fas fa-info-circle text-green-600 mr-2"></i>
+                    <span>État du Système</span>
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                        <span class="font-medium">Statut Général</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">Actif</span>
+                    </div>
+
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-history text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Dernier Arrosage</p>
+                                <p class="font-medium">02:15 (4min)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-water text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Consommation Eau</p>
+                                <p class="font-medium">15L/jour</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-water text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">les Etate de connexion</p>
+                                <p class="font-medium">non connexion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold mb-6 flex items-center space-x-2">
+                    <i class="fas fa-chart-bar text-green-600 mr-2"></i>
+                    <span>Statistiques</span>
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-microchip text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Appareils Connectés</p>
+                                <p class="font-medium" id="numconnected"><!--<span>appareils</span>--></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-calendar-alt text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Wifi Statue</p>
+                                <p class="font-medium" id="signalwifi">70</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-calendar-alt text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Prochaine Irrigation</p>
+                                <p class="font-medium">06:00 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Modal -->
+        <div id="infoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 ">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalTitle" class="text-xl font-bold"></h3>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                        ×
+                    </button>
+                </div>
+                <pre id="modalContent" class="text-gray-600 whitespace-pre-wrap"></pre>
+                <div class="mt-4">
+                    <button onclick="closeModal()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Timer Popup -->
+        <div id="timerPopup" class="hidden fixed bottom-4 right-4 bg-white rounded-lg shadow-xl p-6 w-80">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Programmation</h3>
+                <button onclick="closeTimer()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+
+            <div class="grid mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Durée</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="hours" placeholder="H" class="w-1/3 p-2 border rounded" min="0">
+                        <input type="number" id="minutes" placeholder="M" class="w-1/3 p-2 border rounded" min="0"
+                            max="59">
+                        <input type="number" id="seconds" placeholder="S" class="w-1/3 p-2 border rounded" min="0"
+                            max="59">
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center text-lg font-semibold mb-4">
+                <span id="countdown">00:00:00</span>
+            </div>
+
+            <!-- Buttons in One Line -->
+            <div class="flex justify-between">
+                <button onclick="startTimer()"
+                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-1/2">
+                    Programmer
+                </button>
+                <button onclick="showCancelConfirmation()"
+                    class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 w-1/2">
+                    Annuler
+                </button>
+            </div>
+        </div>
+
+        <!-- Mini Timer Display -->
+        <div id="miniTimer" class="hidden fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded opacity-75">
+            <span id="miniCountdown">00:00:00</span>
+        </div>
+        <!-- Add this Confirmation Popup -->
+        <div id="cancelConfirmation" class="hidden fixed bottom-4 right-4 bg-white rounded-lg shadow-xl p-6 w-80">
+            <div class="text-center">
+                <p class="mb-4">Are you sure you want to stop the timer?</p>
+                <div class="flex justify-between">
+                    <button onclick="confirmCancel()"
+                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-1/2">
+                        Yes
+                    </button>
+                    <button onclick="hideCancelConfirmation()"
+                        class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 w-1/2">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Header Section -->
+<div class="bg-green-50 rounded-md py-6 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <!-- Text Content -->
+        <div class="space-y-4 text-center md:text-left">
+            <div class="flex flex-col items-center md:flex-row md:space-x-3">
+                <i class="fas fa-cloud-rain text-4xl text-green-600 mb-4 md:mb-0"></i>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Irrigation Intelligente</h1>
+            </div>
+            <p class="text-sm sm:text-lg text-gray-600 leading-relaxed">
+                <span class="block md:inline">Système</span> d'irrigation est
+                Un système utilisant ESP 32 est une solution intelligente pour
+                arroser efficacement les plantes, les jardins ou les champs agricoles. Il
+                automatise le processus d'irrigation en fonction des conditions
+                environnementales, telles que l'humidité du sol, la température et
+                l'humidité ambiante.
+            </p>
+        </div>
+
+        <!-- Image -->
+        <div class="flex justify-center md:justify-end">
+            <img src="images/pexels-yarensphotoworks-30564467.jpg" alt="System diagram"
+                class="w-full max-w-md rounded-md h-auto">
+        </div>
+    </div>
+</div>
+
+        <!-- Footer -->
+        <footer class="bg-green-50  py-8">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-gray-600">
+                    © Made By the 20 Compagnie
+                    <span class="mx-2">•</span>
+                    simple and clean
+                </p>
+            </div>
+        </footer>
+        <script src="js/script.js"></script>
+        <script src="script.js"></script>
+        <script src="js/talwind.js"></script>
+        <script src="js/chart.js"></script>
+        <script src="js/demo/chart-area-demo.js"></script>
+        <script src="js/demo/chart-pie-demo.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+    /* Custom background image style */
+    .bg-login {
+        background-image: url('../images/bg-smart.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    body.dark-mode.bg-login {
+    background-image: url('../images/darkBackground.jpg'); /* Dark mode background */
+}
+    /* Dark Mode Styles */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+body.dark-mode .bg-white {
+    background-color: #2d2d2d !important;
+    color: #ffffff;
+}
+
+body.dark-mode .bg-green-50 {
+    background-color: #1e3a1e !important;
+    color: #ffffff;
+}
+
+body.dark-mode .text-gray-600 {
+    color: #a0a0a0 !important;
+}
+
+body.dark-mode .text-gray-800 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .bg-gray-100 {
+    background-color: #3d3d3d !important;
+}
+
+body.dark-mode .bg-gray-200 {
+    background-color: #4d4d4d !important;
+}
+
+body.dark-mode .text-gray-500 {
+    color: #a0a0a0 !important;
+}
+
+body.dark-mode .text-green-600 {
+    color: #4caf50 !important;
+}
+
+body.dark-mode .bg-green-100 {
+    background-color: #2d4d2d !important;
+}
+
+body.dark-mode .bg-red-50 {
+    background-color: #4d2d2d !important;
+}
+
+body.dark-mode .bg-yellow-50 {
+    background-color: #4d4d2d !important;
+}
+
+body.dark-mode .bg-blue-50 {
+    background-color: #2d2d4d !important;
+}
+
+body.dark-mode .bg-purple-100 {
+    background-color: #3d2d4d !important;
+}
+
+body.dark-mode .bg-blue-100 {
+    background-color: #2d3d4d !important;
+}
+
+body.dark-mode .bg-gray-50 {
+    background-color: #3d3d3d !important;
+}
+
+body.dark-mode .bg-black {
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode .text-white {
+    color: #ffffff !important;
+}
+
+body.dark-mode .text-black {
+    color: #ffffff !important;
+}
